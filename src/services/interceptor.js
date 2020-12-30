@@ -2,6 +2,7 @@ import Axios from 'axios'
 
 
 Axios.defaults.headers.common.Accept = 'application/json';
+Axios.defaults.headers.common.ContentType = 'application/json';
 
 // Add a response interceptor
 Axios.interceptors.response.use((response) => {

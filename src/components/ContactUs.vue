@@ -64,11 +64,11 @@
     import HeaderBanner from "../views/HeaderBanner";
     import bannerImage from "../assets/abouts-banner.png";
     // import HappyCustomersQuotes from "../views/HappyCutomersQuotes";
-    // import APIService from "@/services/api.service";
+    import APIService from "@/services/api.service";
 
     import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/vue-loading.css';
-    const $email = window.Email;
+    // const $email = window.Email;
 
     export default {
         components: {
@@ -100,30 +100,30 @@
             }
             this.isLoading = true;
             const payload = {
-                "from": "kumarbsindia@gmail.com",
-                "to": "kumarbsindia@gmail.com",
-                "subject": `This mail is sent by ${this.name} : ${this.email}`,
-                "text": this.message
+                from: '',
+                to: "kumarbsindia@gmail.com",
+                subject: `This mail is sent by ${this.name} | ${this.email}`,
+                text: this.message
             }
 
-            $email.send({ 
-                Host: "smtp.gmail.com", 
-                Username: "kumarbsindia@gmail.com", 
-                Password: "Apple@0909", 
-                To: payload.to, 
-                From: payload.from, 
-                Subject: payload.subject, 
-                Body: payload.text, 
-            }) 
-            .then((message) => { 
-                // console.log(message);
-                this.isLoading = false;
-                this.$notify({
-                    group: 'foo',
-                    title: 'Error',
-                    text:  message
-                });
-            })
+            // $email.send({ 
+            //     Host: "smtp.gmail.com", 
+            //     Username: "kumarbsindia@gmail.com", 
+            //     Password: "Apple@0909", 
+            //     To: payload.to, 
+            //     From: payload.from, 
+            //     Subject: payload.subject, 
+            //     Body: payload.text, 
+            // }) 
+            // .then((message) => { 
+            //     // console.log(message);
+            //     this.isLoading = false;
+            //     this.$notify({
+            //         group: 'foo',
+            //         title: 'Error',
+            //         text:  message
+            //     });
+            // })
             // .catch(err => {
             //   this.isLoading = false;
             //   this.$notify({
@@ -133,24 +133,29 @@
             //     });
             // }); 
 
-            // APIService.sendMail(payload)
-            // .then(response => {
-            //   this.isLoading = false;
-            //   console.log(response);
-            //   this.name = null;
-            //   this.email = null;
-            //   this.message = null;
-            // })
-            // .catch(err => {
-            //   this.isLoading = false;
-            //   console.log(err);
-            //   this.$notify({
-            //       group: 'foo',
-            //       title: 'Error',
-            //       text: err
-            //     });
-            //   throw err;
-            // })
+            APIService.sendMail(payload)
+            .then(response => {
+              this.isLoading = false;
+              console.log(response);
+              this.name = null;
+              this.email = null;
+              this.message = null;
+              this.$notify({
+                  group: 'foo',
+                  title: 'Success',
+                  text: 'Email Sent Successfully'
+                });
+            })
+            .catch(err => {
+              this.isLoading = false;
+              console.log(err);
+              this.$notify({
+                  group: 'foo',
+                  title: 'Error',
+                  text: err
+                });
+              throw err;
+            })
         }
     }
 }
